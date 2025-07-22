@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/smart-goal-planner/static/css/main.e6c13ad2.css",
+    "main.js": "/smart-goal-planner/static/js/main.33173e84.js",
+    "static/js/453.87313ce4.chunk.js": "/smart-goal-planner/static/js/453.87313ce4.chunk.js",
+    "index.html": "/smart-goal-planner/index.html",
+    "main.e6c13ad2.css.map": "/smart-goal-planner/static/css/main.e6c13ad2.css.map",
+    "main.33173e84.js.map": "/smart-goal-planner/static/js/main.33173e84.js.map",
+    "453.87313ce4.chunk.js.map": "/smart-goal-planner/static/js/453.87313ce4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.33173e84.js"
+  ]
+}
