@@ -1,0 +1,44 @@
+{
+  "goals": [
+    {
+      "id": "1",
+      "title": "Learn React",
+      "description": "Building a goal planner app using React and JSON Server"
+    },
+    {
+      "id": "2",
+      "title": "Practice JavaScript",
+      "description": "Still got to work on React"
+    },
+    {
+      "id": "3bb5",
+      "title": "yo",
+      "category": "hi",
+      "completed": true
+    },
+    {
+      "id": "cb88",
+      "title": "hi",
+      "category": "hello",
+      "completed": true
+    },
+    {
+      "id": "9eee",
+      "title": "yo",
+      "category": "hi",
+      "completed": true
+    },
+    {
+      "id": "6a11",
+      "title": "hi",
+      "category": "hello",
+      "completed": true
+    },
+    {
+      "id": "8010",
+      "title": "hi",
+      "category": "hh",
+      "completed": true
+    }
+  ]
+}
