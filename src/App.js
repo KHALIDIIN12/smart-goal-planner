@@ -1,100 +1,81 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import Goals from "./Goals";
+
+const API = "http://localhost:3005/goals";
 
 function App() {
   const [goals, setGoals] = useState([]);
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3001/goals")
+    fetch(API)
       .then((res) => res.json())
-      .then((data) => setGoals(data))
-      .catch((err) => console.log("Fetch error", err));
+      .then((data) => setGoals(data));
   }, []);
 
-  function handleSubmit(e) {
+  function handleAddGoal(e) {
     e.preventDefault();
 
     const newGoal = {
       title,
-      category,
-      completed: false,
+      description,
+      completed: false
     };
 
-    fetch("http://localhost:3002/goals", {
+    fetch(API, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(newGoal),
+      body: JSON.stringify(newGoal)
     })
       .then((res) => res.json())
       .then((data) => {
-        setGoals((prevGoals) => [...prevGoals, data]);
+        setGoals([...goals, data]);
         setTitle("");
-        setCategory("");
+        setDescription("");
       });
   }
-  function handleMarkAsDone(goalId) {
-    fetch(`http://localhost:3002/goals/${goalId}`, {
+
+  function handleToggleCompleted(goalId, currentCompleted) {
+    fetch(`${API}/${goalId}`, {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({ completed: true }),
+      body: JSON.stringify({ completed: !currentCompleted })
     })
       .then((res) => res.json())
       .then((updatedGoal) => {
-        setGoals((prevGoals) =>
-          prevGoals.map((goal) =>
-            goal.id === updatedGoal.id ? updatedGoal : goal
-          )
+        const updatedGoals = goals.map((goal) =>
+          goal.id === updatedGoal.id ? updatedGoal : goal
         );
+        setGoals(updatedGoals);
       });
   }
 
   return (
-    <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
-      <h2>My Goals</h2>
-      <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
+    <div>
+      <h1>Smart Goal Planner</h1>
+
+      <form onSubmit={handleAddGoal}>
         <input
           type="text"
-          placeholder="Title"
+          placeholder="Goal Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          required
-          style={{ marginRight: "10px" }}
         />
         <input
           type="text"
-          placeholder="Category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          required
-          style={{ marginRight: "10px" }}
+          placeholder="Goal Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
         <button type="submit">Add Goal</button>
       </form>
 
-     
-      <ul>
-        {goals.length === 0 ? (
-          <p>No goals added yet.</p>
-        ) : (
-          goals.map((goal) => (
-            <li key={goal.id} style={{ marginBottom: "10px" }}>
-              <strong>{goal.title}</strong> - {goal.category}{" "}
-              {goal.completed ? (
-                <span style={{ color: "green" }}>✅ Done</span>
-              ) : (
-                <button onClick={() => handleMarkAsDone(goal.id)}>
-                  Mark as Done
-                </button>
-              )}
-            </li>
-          ))
-        )}
-      </ul>
+      <Goals goals={goals} onToggleCompleted={handleToggleCompleted} />
     </div>
   );
 }
