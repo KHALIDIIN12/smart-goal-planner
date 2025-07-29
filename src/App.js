@@ -7,6 +7,8 @@ function App() {
   const [goals, setGoals] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [deadline, setDeadline] = useState(""); // new state
+  const [category, setCategory] = useState("Personal"); // new state
 
   useEffect(() => {
     fetch(API)
@@ -20,6 +22,8 @@ function App() {
     const newGoal = {
       title,
       description,
+      deadline,
+      category,
       completed: false
     };
 
@@ -35,6 +39,8 @@ function App() {
         setGoals([...goals, data]);
         setTitle("");
         setDescription("");
+        setDeadline("");
+        setCategory("Personal");
       });
   }
 
@@ -55,6 +61,25 @@ function App() {
       });
   }
 
+  function handleDeleteGoal(goalId) {
+    fetch(`${API}/${goalId}`, { method: "DELETE" })
+      .then(() => {
+        setGoals(goals.filter((goal) => goal.id !== goalId));
+      });
+  }
+
+  function handleEditGoal(updatedGoal) {
+    fetch(`${API}/${updatedGoal.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedGoal)
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setGoals(goals.map((goal) => (goal.id === data.id ? data : goal)));
+      });
+  }
+
   return (
     <div>
       <h1>Smart Goal Planner</h1>
@@ -72,10 +97,26 @@ function App() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+        <input
+          type="date"
+          value={deadline}
+          onChange={(e) => setDeadline(e.target.value)}
+        />
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="Personal">Personal</option>
+          <option value="Health">Health</option>
+          <option value="Finance">Finance</option>
+          <option value="Education">Education</option>
+        </select>
         <button type="submit">Add Goal</button>
       </form>
 
-      <Goals goals={goals} onToggleCompleted={handleToggleCompleted} />
+      <Goals
+        goals={goals}
+        onToggleCompleted={handleToggleCompleted}
+        onDeleteGoal={handleDeleteGoal}
+        onEditGoal={handleEditGoal}
+      />
     </div>
   );
 }

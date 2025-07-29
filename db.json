@@ -1,16 +1,12 @@
 {
   "goals": [
     {
-      "id": "9ff0",
-      "title": "hi",
-      "description": "hi",
-      "completed": true
-    },
-    {
-      "id": "0a46",
-      "title": "hi",
-      "description": "hi",
-      "completed": true
+      "id": "0ffb",
+      "title": "profitability",
+      "description": "euraud",
+      "deadline": "2025-10-15",
+      "category": "Finance",
+      "completed": false
     }
   ]
 }
